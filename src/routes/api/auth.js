@@ -13,4 +13,8 @@ router.post("/login", ctrlWrapper(authCtrl.logIn));
 
 router.get("/logout", auth, ctrlWrapper(authCtrl.logOut));
 
+router.get("/current", auth, ctrlWrapper(authCtrl.current));
+
+router.patch("/", auth, ctrlWrapper(authCtrl.upSubscription));
+
 module.exports = router;

@@ -1,5 +1,6 @@
-const { createError } = require("../../helpers");
 const { User } = require("../../models/user");
+
+const { createError } = require("../../helpers");
 
 const logOut = async (req, res) => {
   const { id } = req.user;

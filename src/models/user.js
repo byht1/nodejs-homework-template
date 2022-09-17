@@ -24,22 +24,28 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
+const emailRegexp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+
 const newUserSchema = Joi.object({
   password: Joi.string().required(),
-  email: Joi.string().required(),
+  email: Joi.string().pattern(emailRegexp).required(),
   subscription: Joi.string(),
 });
 
-// const emailRegexp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-
 const logInSchema = Joi.object({
   password: Joi.string().required(),
-  email: Joi.string().required(),
+  email: Joi.string().pattern(emailRegexp).required(),
+});
+
+const subscriptionSchema = Joi.object({
+  subscription: Joi.string().valid("starter", "pro", "business").required(),
 });
 
 const User = model("user", userSchema);
 
 module.exports = {
+  subscriptionSchema,
   logInSchema,
   newUserSchema,
   User,
