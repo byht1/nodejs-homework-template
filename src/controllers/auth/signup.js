@@ -1,5 +1,6 @@
 const { User, newUserSchema } = require("../../models/user");
 const bcrypt = require("bcryptjs");
+const gravatar = require("gravatar");
 
 const { createError } = require("../../helpers");
 
@@ -18,8 +19,17 @@ const signUp = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
+  const avatarURL = gravatar.url(email, {
+    protocol: "http",
+    s: "250",
+  });
 
-  const result = await User.create({ email, password: hashPassword, ...body });
+  const result = await User.create({
+    email,
+    password: hashPassword,
+    avatarURL,
+    ...body,
+  });
 
   res.status(201).json(result);
 };
