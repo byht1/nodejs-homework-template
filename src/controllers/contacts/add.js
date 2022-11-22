@@ -9,7 +9,9 @@ const add = async (req, res) => {
     throw createError(400, "Not found");
   }
 
-  const result = await Contact.create(body);
+  const { id: owner } = req.user;
+
+  const result = await Contact.create({ ...body, owner });
   res.status(201).json(result);
 };
 
