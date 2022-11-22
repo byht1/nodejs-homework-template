@@ -34,7 +34,6 @@ describe("test user routes", () => {
       password: "11223344",
     };
 
-    //   не шифрує пароль відповідно не логінить
     await User.create(newUser);
 
     const response = await request(app).post("/api/users/login").send(newUser);
