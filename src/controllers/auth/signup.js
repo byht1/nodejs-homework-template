@@ -1,8 +1,9 @@
 const { User, newUserSchema } = require("../../models/user");
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
+const { v4: uuidv4 } = require("uuid");
 
-const { createError } = require("../../helpers");
+const { createError, emailMessage } = require("../../helpers");
 
 const signUp = async (req, res) => {
   const { email, password, ...body } = req.body;
@@ -24,12 +25,17 @@ const signUp = async (req, res) => {
     s: "250",
   });
 
+  const verificationToken = uuidv4();
+
   const result = await User.create({
     email,
     password: hashPassword,
     avatarURL,
+    verificationToken,
     ...body,
   });
+
+  await emailMessage(email, verificationToken);
 
   res.status(201).json(result);
 };

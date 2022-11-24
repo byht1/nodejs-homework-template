@@ -11,9 +11,13 @@ router.post("/signup", ctrlWrapper(authCtrl.signUp));
 
 router.post("/login", ctrlWrapper(authCtrl.logIn));
 
+router.post("/verify", ctrlWrapper(authCtrl.verifyToRepeat));
+
 router.get("/logout", auth, ctrlWrapper(authCtrl.logOut));
 
 router.get("/current", auth, ctrlWrapper(authCtrl.current));
+
+router.get("/verify/:verificationToken", ctrlWrapper(authCtrl.verify));
 
 router.patch("/", auth, ctrlWrapper(authCtrl.upSubscription));
 
