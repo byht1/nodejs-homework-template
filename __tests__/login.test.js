@@ -6,10 +6,10 @@ require("dotenv").config();
 const { DB_TEST_HOST, PORT } = process.env;
 
 const app = require("../src/app");
-// const { User } = require("../src/models/user");
+const { User } = require("../src/models/user");
 
 const newUser = {
-  email: `${Date.now()}ihdpa@gmail.com`,
+  email: "ihdpa@gmail.com",
   password: "11223344",
 };
 
@@ -17,19 +17,16 @@ describe("test user routes", () => {
   let server;
 
   beforeAll(() => (server = app.listen(PORT)));
-  afterAll(() => server.close);
+  afterAll(async () => {
+    await User.remove({});
+    await mongoose.connection.close();
+    server.close();
+  });
 
   beforeEach((done) => {
     mongoose.connect(DB_TEST_HOST).then(() => {
       return done();
     });
-  });
-
-  // Я так розумію що він повинен чистити базу але з ним не працює(з закоментованим кодом)
-
-  afterEach(async () => {
-    await mongoose.connection.dropCollection();
-    await mongoose.connection.close();
   });
 
   test("test/SingUp", async () => {
@@ -57,6 +54,7 @@ describe("test user routes", () => {
       statusCode,
       body: { token, user },
     } = response;
+
     expect(statusCode).toBe(200);
     expect(token).toBeDefined();
     expect(user).toEqual(
@@ -66,17 +64,4 @@ describe("test user routes", () => {
       })
     );
   });
-
-  // test("Login test", async () => {
-  //   const mReq = { body: { email: "avatar@email.com", password: "avatar" } };
-  //   const mRes = { status: jest.fn().mockReturnThis(), send: jest.fn() };
-  //   await loginController(mReq, mRes);
-
-  //   expect(mRes.status).toBeCalledWith(200);
-  //   expect(mRes.token).toEqual(expect.anything());
-  //   expect(mRes.user.email).toEqual(expect.not.stringContaining(expected));
-  //   expect(mRes.send.user.password).toEqual(
-  //     expect.not.stringContaining(expected)
-  //   );
-  // });
 });
