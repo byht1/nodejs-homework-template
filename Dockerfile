@@ -1,11 +1,13 @@
 FROM  node:16.17-alpine
 
-WORKDIR /app
+WORKDIR /server
 
-COPY  package*.json ./
+COPY ./package.json .
 
-RUN nom instal
+RUN npm instal
 
 COPY . .
 
-COPY ./dist ./dist
+EXPOSE 5000 
+
+CMD npm start
