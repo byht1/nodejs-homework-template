@@ -9,7 +9,7 @@ const app = require("../src/app");
 const { User } = require("../src/models/user");
 
 const newUser = {
-  email: "ihdpa@gmail.com",
+  email: "qqbyht1@gmail.com",
   password: "11223344",
 };
 
@@ -44,6 +44,8 @@ describe("test user routes", () => {
         _id: expect.any(String),
         createdAt: expect.any(String),
         updatedAt: expect.any(String),
+        verificationToken: expect.any(String),
+        verify: expect.any(Boolean),
       })
     );
   });
